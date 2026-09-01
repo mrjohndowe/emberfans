@@ -1,0 +1,6 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_URI} !^/emberfans/public/
+    RewriteRule ^(.*)$ /emberfans/public/$1 [R=301,L]
+</IfModule>
