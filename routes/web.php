@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\{AuthController,CreatorController,DashboardController,MessageController,PostController};
+use App\Models\CreatorProfile;
 use Illuminate\Support\Facades\Route;
-Route::get('/', fn() => view('home'))->name('home');
+Route::get('/', fn() => view('home', ['creators' => CreatorProfile::with('user')->latest()->take(3)->get()]))->name('home');
 Route::get('/creators',[CreatorController::class,'index'])->name('creators.index'); Route::get('/creators/{creator:username}',[CreatorController::class,'show'])->name('creators.show');
 Route::middleware('guest')->group(function(){Route::get('/register',[AuthController::class,'create'])->name('register');Route::post('/register',[AuthController::class,'store']);Route::get('/login',[AuthController::class,'login'])->name('login');Route::post('/login',[AuthController::class,'authenticate']);});
 Route::middleware('auth')->group(function(){Route::post('/logout',[AuthController::class,'destroy'])->name('logout');Route::get('/dashboard',DashboardController::class)->name('dashboard');Route::get('/posts/create',[PostController::class,'create'])->name('posts.create');Route::post('/posts',[PostController::class,'store'])->name('posts.store');Route::post('/posts/{post}/like',[PostController::class,'like'])->name('posts.like');Route::post('/posts/{post}/comments',[PostController::class,'comment'])->name('posts.comment');Route::post('/posts/{post}/unlock',[PostController::class,'unlock'])->name('posts.unlock');Route::post('/creators/{creator:username}/subscribe',[CreatorController::class,'subscribe'])->name('creators.subscribe');Route::post('/creators/{creator:username}/tip',[CreatorController::class,'tip'])->name('creators.tip');Route::get('/creator/settings',[CreatorController::class,'edit'])->name('creator.edit');Route::put('/creator/settings',[CreatorController::class,'update'])->name('creator.update');Route::get('/messages',[MessageController::class,'index'])->name('messages.index');Route::post('/messages/{recipient:username}',[MessageController::class,'store'])->name('messages.store');});
