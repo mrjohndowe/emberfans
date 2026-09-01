@@ -1,0 +1,1 @@
+<?php namespace App\Models; use Illuminate\Database\Eloquent\Model; class ContentUnlock extends Model { protected $fillable=['post_id','user_id','payment_id','amount']; protected function casts(): array { return ['amount'=>'decimal:2']; } }

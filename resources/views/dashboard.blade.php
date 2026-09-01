@@ -1,0 +1,1 @@
+<x-layouts.app><div class="page-head"><div><h1>Your feed</h1><p>Fresh from the EmberFans community.</p></div><span>{{ $unreadMessages }} unread messages</span></div><div class="feed">@forelse($feed as $post)<x-post-card :post="$post" />@empty <p>No posts yet. Follow the spark and check back soon.</p>@endforelse</div>{{ $feed->links() }}</x-layouts.app>
