@@ -3,6 +3,7 @@
 <body class="{{ auth()->check() ? 'app-body' : 'guest-body' }}">
 <style>
 @import url('{{ asset('css/forms.css') }}');
+@import url('{{ asset('css/admin.css') }}');
 .guest-body{background:#080b1d;color:#f6f6ff}.guest-top{height:65px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;background:#0a0e23;border-bottom:1px solid #262e52}.guest-top img{width:82px;height:82px;object-fit:cover}.guest-top nav{display:flex;align-items:center;gap:21px;color:#cbd2ed;font-weight:700}.guest-join{padding:9px 14px;border-radius:8px;background:linear-gradient(135deg,#ef54f5,#8925ca);color:#fff}.guest-main{max-width:none;padding:0}.site-loader{position:fixed;inset:0;z-index:99;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,#542072 0,#23113e 34%,#0b0d24 72%,#050612 100%);animation:ember-loader-out .72s ease-in 1.05s forwards}.site-loader:before,.site-loader:after{content:'';position:absolute;border-radius:50%;border:1px solid #f45af344}.site-loader:before{width:720px;height:720px;left:-360px;bottom:-395px}.site-loader:after{width:570px;height:570px;right:-310px;top:-260px}.site-loader-wordmark{position:relative;z-index:1;opacity:0;animation:ember-wordmark-in .38s ease-out .2s forwards;font-size:clamp(52px,9vw,104px);font-weight:800;letter-spacing:-5px;color:#f8f6ff}.site-loader-wordmark em{font-family:cursive;font-style:normal;color:#ee50f5;font-size:1.18em;font-weight:700}.site-loader-wordmark small{display:block;text-align:center;margin-top:14px;color:#bfc5e9;font-size:12px;letter-spacing:4px;font-weight:700}@keyframes ember-wordmark-in{to{opacity:1;transform:scale(1)}}@keyframes ember-loader-out{to{opacity:0;visibility:hidden;pointer-events:none}}@media(prefers-reduced-motion:reduce){.site-loader,.site-loader-wordmark{animation:none}.site-loader{display:none}}@media(max-width:760px){.guest-top{padding:0 16px}.guest-top nav{gap:12px;font-size:13px}.guest-top nav>a:first-child{display:none}.site-loader-wordmark{letter-spacing:-3px}}
 </style>
 <style>
@@ -19,6 +20,9 @@
 @else
 <header class="guest-top"><a class="guest-brand-mark" href="{{ route('home') }}"><img src="{{ asset('images/emberfan-logo.png') }}" alt="EmberFans"></a><nav><a href="{{ route('creators.index') }}">Creators</a><a href="{{ route('login') }}">Log in</a><a class="guest-join" href="{{ route('register') }}">Join EmberFans</a></nav></header><main class="guest-main">
 @endif
+@auth
+@if(auth()->user()->role === 'admin')<a class="admin-entry" href="{{ route('admin.index') }}">⚙ Administration</a>@endif
+@endauth
 @if(session('success'))<div class="notice">{{ session('success') }}</div>@endif
 @if($errors->any())<div class="error">{{ $errors->first() }}</div>@endif
 {{ $slot }}
